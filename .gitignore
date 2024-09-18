@@ -21,3 +21,12 @@ logs
 
 # Data folder
 bookcorpus_data/
+
+
+#data files
+train-data.txt
+validation-data.txt
+#local files
+training_logs/
+workdir/
+lumi_scripts/
