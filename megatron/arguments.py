@@ -311,10 +311,11 @@ def validate_args(args, defaults={}):
             assert args.max_position_embeddings >= args.seq_length
         if args.decoder_seq_length is not None:
             assert args.max_position_embeddings >= args.decoder_seq_length
-    # When rotary position embeddings is used, set add_position_embedding
+    # When rotary or alibi position embeddings is used, set add_position_embedding
     # to false to turn off absolute position embedding.
-    if args.use_rotary_position_embeddings:
+    if args.use_rotary_position_embeddings or args.use_alibi_position_embeddings:
         args.add_position_embedding = False
+ 
     if args.lr is not None:
         assert args.min_lr <= args.lr
     if args.save is not None:
@@ -637,6 +638,8 @@ def _add_network_size_args(parser):
                        dest='rope_theta')
     group.add_argument('--rotary-percent', type=float, default=1.0,
                        help='Percent of rotary dimension to use, default 100%')
+    group.add_argument('--use-alibi-position-embeddings', action='store_true',
+                       help='Use rotary positional embeddings or not')
     group.add_argument('--no-position-embedding',
                        action='store_false',
                        help='Disable position embedding.',
